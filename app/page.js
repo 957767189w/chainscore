@@ -33,7 +33,7 @@ export default function Home() {
       return;
     }
 
-    // Must connect wallet first
+    // Must connect wallet first (for signing/paying gas)
     if (!wallet.isConnected) {
       const connected = await wallet.connect();
       if (!connected) return;
@@ -47,7 +47,8 @@ export default function Home() {
 
     setStep('confirming');
     
-    // This will trigger MetaMask popup for 0 GEN transaction
+    // wallet.address = signer (pays gas)
+    // targetAddress = address to query (can be ANY address)
     const result = await score.queryScore(targetAddress, wallet.address);
     
     if (result) {
@@ -70,6 +71,10 @@ export default function Home() {
     }
   };
 
+  // Check if querying self or others
+  const isQueryingSelf = wallet.address && 
+    targetAddress.toLowerCase() === wallet.address.toLowerCase();
+
   return (
     <div className="app">
       <Header wallet={wallet} />
@@ -87,7 +92,7 @@ export default function Home() {
               value={targetAddress}
               onChange={(e) => setTargetAddress(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Enter wallet address 0x..."
+              placeholder="Enter any wallet address to query 0x..."
               className="address-input"
               spellCheck={false}
               disabled={score.loading}
@@ -101,19 +106,28 @@ export default function Home() {
             </button>
           </div>
 
-          {wallet.isConnected && wallet.address !== targetAddress && (
-            <button className="use-mine-btn" onClick={useMyAddress}>
-              Use my address
-            </button>
+          {wallet.isConnected && (
+            <div className="address-hints">
+              {wallet.address !== targetAddress && (
+                <button className="use-mine-btn" onClick={useMyAddress}>
+                  Use my address
+                </button>
+              )}
+              {isValidAddress(targetAddress) && !isQueryingSelf && (
+                <span className="query-info">
+                  Querying other wallet • Gas paid by your wallet
+                </span>
+              )}
+            </div>
           )}
 
           {targetAddress && !isValidAddress(targetAddress) && (
             <p className="hint error">Invalid address format</p>
           )}
 
-          {isValidAddress(targetAddress) && !score.loading && step === 'idle' && (
+          {!wallet.isConnected && isValidAddress(targetAddress) && (
             <p className="hint">
-              Query requires wallet connection and signature confirmation
+              Connect wallet to sign transaction (gas fee only)
             </p>
           )}
         </div>
@@ -130,7 +144,11 @@ export default function Home() {
           <div className="loading-box">
             <div className="spinner"></div>
             <p>AI is analyzing on-chain data...</p>
-            <p className="loading-sub">Please confirm the transaction in your wallet. First analysis may take ~30 seconds</p>
+            <p className="loading-sub">
+              {step === 'confirming' 
+                ? 'Please confirm in MetaMask' 
+                : 'First analysis may take ~30 seconds'}
+            </p>
             {score.txHash && (
               <p className="tx-hash">
                 Tx: {score.txHash.slice(0, 10)}...{score.txHash.slice(-8)}
@@ -151,21 +169,21 @@ export default function Home() {
                 <span className="step-num">1</span>
                 <div className="step-content">
                   <strong>Connect Wallet</strong>
-                  <p>Connect to GenLayer network via MetaMask</p>
+                  <p>Connect MetaMask to sign transactions</p>
                 </div>
               </div>
               <div className="step">
                 <span className="step-num">2</span>
                 <div className="step-content">
-                  <strong>Confirm Transaction</strong>
-                  <p>Sign the query request in your wallet</p>
+                  <strong>Enter Any Address</strong>
+                  <p>Query your own wallet or anyone else's</p>
                 </div>
               </div>
               <div className="step">
                 <span className="step-num">3</span>
                 <div className="step-content">
                   <strong>AI Analysis</strong>
-                  <p>Multiple AI validators reach consensus on your score</p>
+                  <p>Multiple AI validators reach consensus on the score</p>
                 </div>
               </div>
             </div>
