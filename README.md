@@ -1,163 +1,163 @@
 # ChainScore Protocol
 
-链上信誉评分协议 - 基于 GenLayer 构建
+On-chain Reputation Scoring Protocol - Built on GenLayer
 
-用户查询前需连接 MetaMask，支付 GEN 代币后获取 AI 分析的信用评分。
+Users connect MetaMask and sign a transaction to receive an AI-analyzed credit score.
 
 ---
 
-## 项目结构
+## Project Structure
 
 ```
 chainscore/
 ├── app/                    # Next.js App Router
-│   ├── layout.js           # 根布局
-│   ├── page.js             # 主页面
-│   └── globals.css         # 全局样式
-├── components/             # React 组件
-│   ├── Header.js           # 顶部导航
-│   └── ScoreCard.js        # 评分卡片
-├── lib/                    # 工具库
-│   ├── genlayer.js         # GenLayer SDK 封装
-│   ├── useWallet.js        # 钱包 Hook
-│   └── useScore.js         # 评分查询 Hook
-├── contracts/              # 智能合约
-│   └── chain_score.py      # GenLayer 合约
-├── public/                 # 静态资源
+│   ├── layout.js           # Root layout
+│   ├── page.js             # Main page
+│   └── globals.css         # Global styles
+├── components/             # React components
+│   ├── Header.js           # Top navigation
+│   └── ScoreCard.js        # Score card
+├── lib/                    # Utilities
+│   ├── genlayer.js         # GenLayer SDK wrapper
+│   ├── useWallet.js        # Wallet hook
+│   └── useScore.js         # Score query hook
+├── contracts/              # Smart contracts
+│   └── chain_score.py      # GenLayer contract
+├── public/                 # Static assets
 ├── package.json
 ├── next.config.js
-├── vercel.json             # Vercel 部署配置
-└── .env.example            # 环境变量模板
+├── vercel.json             # Vercel deployment config
+└── .env.example            # Environment variables template
 ```
 
 ---
 
-## 快速开始
+## Quick Start
 
-### 1. 安装依赖
+### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. 配置环境变量
+### 2. Configure Environment Variables
 
 ```bash
 cp .env.example .env.local
 ```
 
-编辑 `.env.local`：
+Edit `.env.local`:
 
 ```env
 NEXT_PUBLIC_GENLAYER_NETWORK=testnet
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x你的合约地址
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xYourContractAddress
 ```
 
-### 3. 启动开发服务器
+### 3. Start Development Server
 
 ```bash
 npm run dev
 ```
 
-访问 http://localhost:3000
+Visit http://localhost:3000
 
 ---
 
-## 部署智能合约
+## Deploy Smart Contract
 
-### 方法一：GenLayer Studio（推荐）
+### Option 1: GenLayer Studio (Recommended)
 
-1. 访问 https://studio.genlayer.com/
-2. 创建新合约，粘贴 `contracts/chain_score.py` 内容
-3. 点击 Deploy
-4. 复制合约地址到 `.env.local`
+1. Visit https://studio.genlayer.com/
+2. Create new contract, paste `contracts/chain_score.py` content
+3. Click Deploy
+4. Copy contract address to `.env.local`
 
-### 方法二：GenLayer CLI
+### Option 2: GenLayer CLI
 
 ```bash
-# 安装 CLI
+# Install CLI
 npm install -g genlayer-cli
 
-# 配置网络
+# Configure network
 genlayer network testnet
 
-# 部署合约
+# Deploy contract
 genlayer deploy --contract contracts/chain_score.py
 ```
 
 ---
 
-## 部署到 Vercel
+## Deploy to Vercel
 
-### 方法一：GitHub 集成（推荐）
+### Option 1: GitHub Integration (Recommended)
 
-1. 将代码推送到 GitHub
-2. 访问 https://vercel.com/new
-3. 导入 GitHub 仓库
-4. 添加环境变量：
+1. Push code to GitHub
+2. Visit https://vercel.com/new
+3. Import GitHub repository
+4. Add environment variables:
    - `NEXT_PUBLIC_GENLAYER_NETWORK`: `testnet`
-   - `NEXT_PUBLIC_CONTRACT_ADDRESS`: `你的合约地址`
-5. 点击 Deploy
+   - `NEXT_PUBLIC_CONTRACT_ADDRESS`: `YourContractAddress`
+5. Click Deploy
 
-### 方法二：Vercel CLI
+### Option 2: Vercel CLI
 
 ```bash
-# 安装 CLI
+# Install CLI
 npm install -g vercel
 
-# 登录
+# Login
 vercel login
 
-# 部署
+# Deploy
 vercel --prod
 ```
 
 ---
 
-## MetaMask 配置
+## MetaMask Configuration
 
-用户首次使用时，需要添加 GenLayer 网络：
+Users need to add GenLayer network on first use:
 
-| 配置项 | Testnet Asimov |
+| Config | Testnet Asimov |
 |--------|----------------|
-| 网络名称 | GenLayer Testnet |
+| Network Name | GenLayer Testnet |
 | RPC URL | https://testnet-rpc.genlayer.com |
 | Chain ID | 61998 |
-| 货币符号 | GEN |
-| 区块浏览器 | https://testnet-explorer.genlayer.com |
+| Currency Symbol | GEN |
+| Block Explorer | https://testnet-explorer.genlayer.com |
 
-**应用会自动提示添加网络，用户只需确认即可。**
-
----
-
-## 查询机制
-
-当前版本**免费查询**（query_fee = 0）
-
-流程：
-1. 用户发起查询
-2. MetaMask 弹出交易确认（gas费）
-3. 用户确认交易
-4. 合约执行 AI 分析
-5. 返回评分结果
-
-如需启用收费，修改合约中 `self.query_fee` 的值。
+**The app will automatically prompt to add the network.**
 
 ---
 
-## 修改费用
+## Query Mechanism
 
-当前为免费（`query_fee = 0`）。如需收费，修改合约：
+Current version: **Free queries** (query_fee = 0)
+
+Flow:
+1. User initiates query
+2. MetaMask popup for transaction confirmation (gas fee only)
+3. User confirms transaction
+4. Contract executes AI analysis
+5. Returns score result
+
+To enable paid queries, modify `query_fee` in the contract.
+
+---
+
+## Modify Query Fee
+
+Current: Free (`query_fee = 0`). To enable fees, modify the contract:
 
 ```python
-# 当前：免费
+# Current: Free
 self.query_fee = 0
 
-# 修改为 0.1 GEN
+# Change to 0.1 GEN
 self.query_fee = 100000000000000000
 ```
 
-同时修改前端 `lib/genlayer.js`：
+Also update frontend `lib/genlayer.js`:
 
 ```javascript
 export const QUERY_FEE = BigInt('100000000000000000');
@@ -165,91 +165,91 @@ export const QUERY_FEE = BigInt('100000000000000000');
 
 ---
 
-## 开发说明
+## Development Notes
 
-### 本地开发（使用 Studio）
+### Local Development (Using Studio)
 
-1. 启动 GenLayer Studio
+1. Start GenLayer Studio
 
 ```bash
 genlayer init
 genlayer up
 ```
 
-2. 修改环境变量
+2. Update environment variable
 
 ```env
 NEXT_PUBLIC_GENLAYER_NETWORK=studionet
 ```
 
-3. 在 Studio 中部署合约
+3. Deploy contract in Studio
 
-4. 启动前端
+4. Start frontend
 
 ```bash
 npm run dev
 ```
 
-### 网络配置
+### Network Configuration
 
-| 网络 | RPC | Chain ID |
-|------|-----|----------|
+| Network | RPC | Chain ID |
+|---------|-----|----------|
 | studionet | http://localhost:4000/api | 61999 |
 | testnet | https://testnet-rpc.genlayer.com | 61998 |
 
 ---
 
-## 测试 GEN 代币
+## Test GEN Tokens
 
-在 Testnet 上获取测试代币：
+Get test tokens on Testnet:
 
-1. 加入 GenLayer Discord: https://discord.gg/genlayer
-2. 在 #faucet 频道发送你的地址
-3. 或访问官方 Faucet（如果有）
-
----
-
-## 常见问题
-
-### Q: MetaMask 没有弹出？
-
-- 检查是否安装 MetaMask
-- 检查浏览器是否阻止弹窗
-- 尝试刷新页面
-
-### Q: 提示「扣款失败」？
-
-- 检查 GEN 余额是否充足（>= 0.1 GEN）
-- 确认已切换到正确网络
-- 检查合约地址是否正确
-
-### Q: 评分很慢？
-
-- GenLayer AI 共识需要多个验证器参与
-- 首次查询通常需要 20-30 秒
-- 缓存的评分会更快返回
-
-### Q: 如何修改 UI？
-
-- 样式文件: `app/globals.css`
-- 主页面: `app/page.js`
-- 评分卡片: `components/ScoreCard.js`
+1. Join GenLayer Discord: https://discord.gg/genlayer
+2. Request tokens in #faucet channel
+3. Or visit official Faucet (if available)
 
 ---
 
-## 技术栈
+## FAQ
 
-- **前端**: Next.js 14, React 18
-- **智能合约**: GenLayer (Python)
+### Q: MetaMask not popping up?
+
+- Check if MetaMask is installed
+- Check if browser is blocking popups
+- Try refreshing the page
+
+### Q: Shows "Payment failed"?
+
+- Check if GEN balance is sufficient for gas
+- Confirm you're on the correct network
+- Verify contract address is correct
+
+### Q: Score takes too long?
+
+- GenLayer AI consensus requires multiple validators
+- First query typically takes 20-30 seconds
+- Cached scores return faster
+
+### Q: How to modify UI?
+
+- Styles: `app/globals.css`
+- Main page: `app/page.js`
+- Score card: `components/ScoreCard.js`
+
+---
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React 18
+- **Smart Contract**: GenLayer (Python)
 - **SDK**: genlayer-js
-- **部署**: Vercel
-- **钱包**: MetaMask
+- **Deployment**: Vercel
+- **Wallet**: MetaMask
 
 ---
 
-## 相关链接
+## Links
 
-- GenLayer 文档: https://docs.genlayer.com/
+- GenLayer Docs: https://docs.genlayer.com/
 - GenLayer Studio: https://studio.genlayer.com/
 - GenLayer JS SDK: https://docs.genlayer.com/api-references/genlayer-js
 - Testnet Asimov: https://www.genlayer.com/testnet

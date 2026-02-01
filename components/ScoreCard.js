@@ -18,7 +18,6 @@ export default function ScoreCard({ data, onReset }) {
     fee_paid,
   } = data;
 
-  // 颜色映射
   const getColor = (score) => {
     if (score >= 80) return '#16a34a';
     if (score >= 60) return '#65a30d';
@@ -36,17 +35,17 @@ export default function ScoreCard({ data, onReset }) {
   };
 
   const riskLabels = {
-    low: { text: '低', class: 'risk-low' },
-    medium: { text: '中', class: 'risk-medium' },
-    high: { text: '高', class: 'risk-high' },
+    low: { text: 'Low', class: 'risk-low' },
+    medium: { text: 'Medium', class: 'risk-medium' },
+    high: { text: 'High', class: 'risk-high' },
   };
 
   const dimensionNames = {
-    asset_health: '资产健康',
-    tx_activity: '交易活跃',
-    defi_engagement: 'DeFi 参与',
-    account_maturity: '账户成熟',
-    governance: '治理参与',
+    asset_health: 'Asset Health',
+    tx_activity: 'Tx Activity',
+    defi_engagement: 'DeFi Engagement',
+    account_maturity: 'Account Maturity',
+    governance: 'Governance',
   };
 
   const dimensionWeights = {
@@ -63,20 +62,18 @@ export default function ScoreCard({ data, onReset }) {
 
   return (
     <div className="score-card">
-      {/* 头部 */}
       <div className="card-top">
         <div className="address-row">
-          <span className="label">查询地址</span>
+          <span className="label">Wallet Address</span>
           <span className="addr">{address}</span>
         </div>
         {timestamp && (
           <span className="time">
-            {new Date(timestamp * 1000).toLocaleString('zh-CN')}
+            {new Date(timestamp * 1000).toLocaleString('en-US')}
           </span>
         )}
       </div>
 
-      {/* 主评分 */}
       <div className="score-main">
         <div className="score-ring" style={{ borderColor: scoreColor }}>
           <span className="score-num">{total_score}</span>
@@ -87,24 +84,22 @@ export default function ScoreCard({ data, onReset }) {
             className="grade-tag"
             style={{ background: gc.bg, color: gc.text }}
           >
-            {grade} 级
+            Grade {grade}
           </span>
           <span className={`risk-tag ${risk.class}`}>
-            女巫风险: {risk.text}
+            Sybil Risk: {risk.text}
           </span>
         </div>
       </div>
 
-      {/* 总结 */}
       {summary && (
         <div className="summary-row">
           <p>{summary}</p>
         </div>
       )}
 
-      {/* 维度详情 */}
       <div className="dimensions">
-        <h4>评分详情</h4>
+        <h4>Score Breakdown</h4>
         {dimensions &&
           Object.entries(dimensions).map(([key, value]) => (
             <div key={key} className="dim-item">
@@ -128,11 +123,10 @@ export default function ScoreCard({ data, onReset }) {
           ))}
       </div>
 
-      {/* 亮点和风险 */}
       <div className="insights">
         {highlights && highlights.length > 0 && (
           <div className="insight-col">
-            <h5>亮点</h5>
+            <h5>Highlights</h5>
             <ul>
               {highlights.map((h, i) => (
                 <li key={i} className="highlight">
@@ -145,7 +139,7 @@ export default function ScoreCard({ data, onReset }) {
         )}
         {concerns && concerns.length > 0 && (
           <div className="insight-col">
-            <h5>风险提示</h5>
+            <h5>Risk Alerts</h5>
             <ul>
               {concerns.map((c, i) => (
                 <li key={i} className="concern">
@@ -158,11 +152,10 @@ export default function ScoreCard({ data, onReset }) {
         )}
       </div>
 
-      {/* 底部操作 */}
       <div className="card-bottom">
-        {fee_paid && (
+        {fee_paid > 0 && (
           <span className="fee-info">
-            已支付 {formatGen(fee_paid)} GEN
+            Paid {formatGen(fee_paid)} GEN
           </span>
         )}
         <div className="actions">
@@ -179,13 +172,13 @@ export default function ScoreCard({ data, onReset }) {
             onClick={() => {
               const url = `${window.location.origin}?address=${address}`;
               navigator.clipboard.writeText(url);
-              alert('链接已复制');
+              alert('Link copied');
             }}
           >
-            分享
+            Share
           </button>
           <button className="btn-primary" onClick={onReset}>
-            新查询
+            New Query
           </button>
         </div>
       </div>
