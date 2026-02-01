@@ -15,30 +15,15 @@ export default function Header({ wallet }) {
         </div>
 
         <nav className="nav">
-          <a
-            href="https://docs.genlayer.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Docs
-          </a>
-          <a
-            href="https://github.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub
-          </a>
+          <a href="https://docs.genlayer.com" target="_blank" rel="noopener noreferrer">Docs</a>
+          <a href="https://github.com" target="_blank" rel="noopener noreferrer">GitHub</a>
         </nav>
 
         <div className="wallet-area">
           {wallet.isConnected ? (
             <div className="wallet-info">
               {!wallet.isCorrectNetwork && (
-                <button
-                  className="switch-network-btn"
-                  onClick={wallet.switchNetwork}
-                >
+                <button className="switch-network-btn" onClick={wallet.switchNetwork}>
                   Switch Network
                 </button>
               )}

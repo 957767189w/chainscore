@@ -33,11 +33,13 @@ export default function Home() {
       return;
     }
 
+    // Must connect wallet first
     if (!wallet.isConnected) {
       const connected = await wallet.connect();
       if (!connected) return;
     }
 
+    // Must be on correct network
     if (!wallet.isCorrectNetwork) {
       const switched = await wallet.switchNetwork();
       if (!switched) return;
@@ -45,6 +47,7 @@ export default function Home() {
 
     setStep('confirming');
     
+    // This will trigger MetaMask popup for 0 GEN transaction
     const result = await score.queryScore(targetAddress, wallet.address);
     
     if (result) {

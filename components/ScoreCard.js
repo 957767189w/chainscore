@@ -16,6 +16,11 @@ export default function ScoreCard({ data, onReset }) {
     concerns,
     timestamp,
     fee_paid,
+    asset_health,
+    tx_activity,
+    defi_engagement,
+    account_maturity,
+    governance,
   } = data;
 
   const getColor = (score) => {
@@ -56,9 +61,18 @@ export default function ScoreCard({ data, onReset }) {
     governance: 15,
   };
 
+  // Build dimensions object from flat or nested structure
+  const dims = dimensions || {
+    asset_health: asset_health || 50,
+    tx_activity: tx_activity || 50,
+    defi_engagement: defi_engagement || 50,
+    account_maturity: account_maturity || 50,
+    governance: governance || 50,
+  };
+
   const gc = gradeColors[grade] || gradeColors.C;
   const risk = riskLabels[sybil_risk] || riskLabels.medium;
-  const scoreColor = getColor(total_score);
+  const scoreColor = getColor(total_score || 50);
 
   return (
     <div className="score-card">
@@ -76,15 +90,12 @@ export default function ScoreCard({ data, onReset }) {
 
       <div className="score-main">
         <div className="score-ring" style={{ borderColor: scoreColor }}>
-          <span className="score-num">{total_score}</span>
+          <span className="score-num">{total_score || 50}</span>
           <span className="score-max">/100</span>
         </div>
         <div className="badges">
-          <span
-            className="grade-tag"
-            style={{ background: gc.bg, color: gc.text }}
-          >
-            Grade {grade}
+          <span className="grade-tag" style={{ background: gc.bg, color: gc.text }}>
+            Grade {grade || 'C'}
           </span>
           <span className={`risk-tag ${risk.class}`}>
             Sybil Risk: {risk.text}
@@ -100,27 +111,23 @@ export default function ScoreCard({ data, onReset }) {
 
       <div className="dimensions">
         <h4>Score Breakdown</h4>
-        {dimensions &&
-          Object.entries(dimensions).map(([key, value]) => (
-            <div key={key} className="dim-item">
-              <div className="dim-top">
-                <span className="dim-name">
-                  {dimensionNames[key] || key}
-                  <span className="dim-weight">({dimensionWeights[key]}%)</span>
-                </span>
-                <span className="dim-score">{value}</span>
-              </div>
-              <div className="dim-bar-bg">
-                <div
-                  className="dim-bar"
-                  style={{
-                    width: `${value}%`,
-                    background: getColor(value),
-                  }}
-                />
-              </div>
+        {Object.entries(dims).map(([key, value]) => (
+          <div key={key} className="dim-item">
+            <div className="dim-top">
+              <span className="dim-name">
+                {dimensionNames[key] || key}
+                <span className="dim-weight">({dimensionWeights[key] || 20}%)</span>
+              </span>
+              <span className="dim-score">{value}</span>
             </div>
-          ))}
+            <div className="dim-bar-bg">
+              <div
+                className="dim-bar"
+                style={{ width: `${value}%`, background: getColor(value) }}
+              />
+            </div>
+          </div>
+        ))}
       </div>
 
       <div className="insights">
@@ -154,16 +161,12 @@ export default function ScoreCard({ data, onReset }) {
 
       <div className="card-bottom">
         {fee_paid > 0 && (
-          <span className="fee-info">
-            Paid {formatGen(fee_paid)} GEN
-          </span>
+          <span className="fee-info">Paid {formatGen(fee_paid)} GEN</span>
         )}
         <div className="actions">
           <button
             className="btn-secondary"
-            onClick={() => {
-              window.open(`https://etherscan.io/address/${address}`, '_blank');
-            }}
+            onClick={() => window.open(`https://etherscan.io/address/${address}`, '_blank')}
           >
             Etherscan
           </button>
