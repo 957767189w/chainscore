@@ -49,14 +49,6 @@ export default function Home() {
       if (!switched) return;
     }
 
-    // 检查余额
-    const balanceWei = BigInt(wallet.balance || '0');
-    if (balanceWei < QUERY_FEE) {
-      score.reset();
-      alert(`GEN 余额不足。需要 ${formatGen(QUERY_FEE)} GEN，当前余额 ${wallet.balanceFormatted} GEN`);
-      return;
-    }
-
     // 开始查询
     setStep('confirming');
     
@@ -113,7 +105,7 @@ export default function Home() {
               disabled={score.loading || !isValidAddress(targetAddress)}
               className="query-btn"
             >
-              {score.loading ? '处理中...' : `查询 (${formatGen(QUERY_FEE)} GEN)`}
+              {score.loading ? '处理中...' : '查询评分'}
             </button>
           </div>
 
@@ -129,10 +121,10 @@ export default function Home() {
             <p className="hint error">地址格式不正确</p>
           )}
 
-          {/* 费用提示 */}
+          {/* 提示 */}
           {isValidAddress(targetAddress) && !score.loading && step === 'idle' && (
             <p className="hint">
-              查询将从您的钱包扣除 {formatGen(QUERY_FEE)} GEN
+              查询需要连接钱包并签名确认
             </p>
           )}
         </div>
@@ -180,8 +172,8 @@ export default function Home() {
               <div className="step">
                 <span className="step-num">2</span>
                 <div className="step-content">
-                  <strong>支付查询费</strong>
-                  <p>每次查询消耗 {formatGen(QUERY_FEE)} GEN</p>
+                  <strong>确认交易</strong>
+                  <p>在钱包中签名确认查询请求</p>
                 </div>
               </div>
               <div className="step">

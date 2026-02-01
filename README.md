@@ -130,37 +130,37 @@ vercel --prod
 
 ---
 
-## 收费机制
+## 查询机制
 
-每次评分查询收取 **0.1 GEN**
+当前版本**免费查询**（query_fee = 0）
 
-费用流程：
+流程：
 1. 用户发起查询
-2. MetaMask 弹出交易确认（包含 0.1 GEN）
+2. MetaMask 弹出交易确认（gas费）
 3. 用户确认交易
 4. 合约执行 AI 分析
 5. 返回评分结果
 
-如果用户拒绝交易或余额不足，显示「扣款失败」。
+如需启用收费，修改合约中 `self.query_fee` 的值。
 
 ---
 
 ## 修改费用
 
-在合约中修改 `query_fee`：
+当前为免费（`query_fee = 0`）。如需收费，修改合约：
 
 ```python
-# 0.1 GEN (18 位小数)
-self.query_fee = 100000000000000000
+# 当前：免费
+self.query_fee = 0
 
-# 修改为 0.05 GEN
-self.query_fee = 50000000000000000
+# 修改为 0.1 GEN
+self.query_fee = 100000000000000000
 ```
 
-或调用管理函数：
+同时修改前端 `lib/genlayer.js`：
 
-```python
-contract.set_fee(new_fee)
+```javascript
+export const QUERY_FEE = BigInt('100000000000000000');
 ```
 
 ---

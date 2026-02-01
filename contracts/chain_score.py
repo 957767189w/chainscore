@@ -20,7 +20,7 @@ class ChainScore:
         self.owner = gl.msg_sender()
         
         # 配置
-        self.query_fee = 100000000000000000  # 0.1 GEN (18 decimals)
+        self.query_fee = 0  # 免费查询
         self.cache_duration = 86400          # 24小时缓存
     
     @gl.public.view
