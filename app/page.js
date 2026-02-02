@@ -33,13 +33,11 @@ export default function Home() {
       return;
     }
 
-    // Must connect wallet first (for signing/paying gas)
     if (!wallet.isConnected) {
       const connected = await wallet.connect();
       if (!connected) return;
     }
 
-    // Must be on correct network
     if (!wallet.isCorrectNetwork) {
       const switched = await wallet.switchNetwork();
       if (!switched) return;
@@ -47,8 +45,6 @@ export default function Home() {
 
     setStep('confirming');
     
-    // wallet.address = signer (pays gas)
-    // targetAddress = address to query (can be ANY address)
     const result = await score.queryScore(targetAddress, wallet.address);
     
     if (result) {
@@ -71,7 +67,6 @@ export default function Home() {
     }
   };
 
-  // Check if querying self or others
   const isQueryingSelf = wallet.address && 
     targetAddress.toLowerCase() === wallet.address.toLowerCase();
 
@@ -92,7 +87,7 @@ export default function Home() {
               value={targetAddress}
               onChange={(e) => setTargetAddress(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Enter any wallet address to query 0x..."
+              placeholder="Enter any wallet address 0x..."
               className="address-input"
               spellCheck={false}
               disabled={score.loading}
@@ -115,7 +110,7 @@ export default function Home() {
               )}
               {isValidAddress(targetAddress) && !isQueryingSelf && (
                 <span className="query-info">
-                  Querying other wallet • Gas paid by your wallet
+                  Querying other wallet · Gas paid by your wallet
                 </span>
               )}
             </div>
@@ -175,8 +170,8 @@ export default function Home() {
               <div className="step">
                 <span className="step-num">2</span>
                 <div className="step-content">
-                  <strong>Enter Any Address</strong>
-                  <p>Query your own wallet or anyone else's</p>
+                  <strong>Enter Address</strong>
+                  <p>Query your own or any other wallet</p>
                 </div>
               </div>
               <div className="step">
@@ -189,7 +184,7 @@ export default function Home() {
             </div>
 
             <div className="network-info">
-              <p>Current Network: {networkConfig.name}</p>
+              <p>Network: {networkConfig.name}</p>
               {CONTRACT_ADDRESS && (
                 <p className="contract-addr">
                   Contract: {CONTRACT_ADDRESS.slice(0, 8)}...{CONTRACT_ADDRESS.slice(-6)}

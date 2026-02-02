@@ -240,14 +240,25 @@ body {
   cursor: not-allowed;
 }
 
-.use-mine-btn {
+.address-hints {
   margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.use-mine-btn {
   background: none;
   border: none;
   color: var(--accent);
   font-size: 13px;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.query-info {
+  font-size: 12px;
+  color: var(--text-muted);
 }
 
 .hint {

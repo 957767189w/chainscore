@@ -1,5 +1,7 @@
 'use client';
 
+import { networkConfig } from '../lib/genlayer';
+
 export default function Header({ wallet }) {
   const formatAddr = (addr) => {
     if (!addr) return '';

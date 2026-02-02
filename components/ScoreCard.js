@@ -61,7 +61,6 @@ export default function ScoreCard({ data, onReset }) {
     governance: 15,
   };
 
-  // Build dimensions object from flat or nested structure
   const dims = dimensions || {
     asset_health: asset_health || 50,
     tx_activity: tx_activity || 50,
