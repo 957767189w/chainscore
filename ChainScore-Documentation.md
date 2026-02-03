@@ -286,17 +286,6 @@ npx vercel --prod
 
 ---
 
-## Contributing
-
-We welcome contributions! Areas of interest:
-
-- Scoring algorithm improvements
-- Multi-chain data integration
-- UI/UX enhancements
-- Documentation
-- Testing and security audits
-
----
 
 ## Links
 
@@ -306,19 +295,5 @@ We welcome contributions! Areas of interest:
 
 ---
 
-## License
-
-MIT License
-
----
-
-## Contact
-
-For partnerships, integrations, or inquiries:
-- Twitter: @ChainScore
-- Discord: discord.gg/chainscore
-- Email: team@chainscore.io
-
----
 
 *Built with GenLayer - The Intelligent Blockchain*

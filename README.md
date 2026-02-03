@@ -256,6 +256,3 @@ Get test tokens on Testnet:
 
 ---
 
-## License
-
-MIT
