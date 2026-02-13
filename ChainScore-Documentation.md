@@ -289,7 +289,6 @@ npx vercel --prod
 
 ## Links
 
-- **Live Demo**: https://chainscore-theta.vercel.app
 - **GenLayer**: https://genlayer.com
 - **Documentation**: https://docs.genlayer.com
 
