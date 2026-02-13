@@ -2,6 +2,9 @@
 
 import { networkConfig } from '../lib/genlayer';
 
+/**
+ * Header component with wallet connection
+ */
 export default function Header({ wallet }) {
   const formatAddr = (addr) => {
     if (!addr) return '';

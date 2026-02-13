@@ -1,9 +1,11 @@
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Variables */
 :root {
   --bg: #fafafa;
   --bg-card: #ffffff;
@@ -21,6 +23,7 @@
   --radius: 6px;
 }
 
+/* Base */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg);
@@ -43,6 +46,7 @@ body {
   padding: 40px 20px;
 }
 
+/* Header */
 .header {
   background: var(--bg-card);
   border-bottom: 1px solid var(--border);
@@ -169,6 +173,7 @@ body {
   cursor: pointer;
 }
 
+/* Hero */
 .hero {
   text-align: center;
   margin-bottom: 36px;
@@ -186,6 +191,7 @@ body {
   color: var(--text-secondary);
 }
 
+/* Search Box */
 .search-box {
   margin-bottom: 28px;
 }
@@ -271,6 +277,7 @@ body {
   color: var(--danger);
 }
 
+/* Error Box */
 .error-box {
   display: flex;
   align-items: center;
@@ -311,6 +318,7 @@ body {
   cursor: pointer;
 }
 
+/* Loading */
 .loading-box {
   text-align: center;
   padding: 40px 20px;
@@ -348,6 +356,7 @@ body {
   color: var(--text-muted) !important;
 }
 
+/* Score Card */
 .score-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -448,6 +457,7 @@ body {
   text-align: center;
 }
 
+/* Dimensions */
 .dimensions {
   padding: 20px;
   border-bottom: 1px solid var(--border);
@@ -502,6 +512,7 @@ body {
   transition: width 0.4s ease;
 }
 
+/* Insights */
 .insights {
   padding: 20px;
   display: grid;
@@ -531,6 +542,7 @@ body {
 .highlight .icon { color: var(--success); font-weight: 600; }
 .concern .icon { color: var(--warning); font-weight: 600; }
 
+/* Card Bottom */
 .card-bottom {
   padding: 14px 20px;
   display: flex;
@@ -538,6 +550,7 @@ body {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+  border-bottom: 1px solid var(--border);
 }
 
 .fee-info {
@@ -578,6 +591,31 @@ body {
   opacity: 0.9;
 }
 
+/* Credit Loan Button Section */
+.loan-section {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, #1e40af 0%, #7c3aed 100%);
+}
+
+.btn-loan {
+  width: 100%;
+  padding: 14px 24px;
+  background: white;
+  color: #1e40af;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-loan:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Intro Section */
 .intro {
   margin-top: 32px;
 }
@@ -641,6 +679,7 @@ body {
   margin-top: 2px;
 }
 
+/* Footer */
 .footer {
   text-align: center;
   padding: 20px;
@@ -664,6 +703,7 @@ body {
   margin-top: 4px;
 }
 
+/* Responsive */
 @media (max-width: 600px) {
   .hero h1 { font-size: 34px; }
   .input-row { flex-direction: column; }

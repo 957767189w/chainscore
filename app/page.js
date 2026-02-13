@@ -7,6 +7,9 @@ import { CONTRACT_ADDRESS, networkConfig } from '../lib/genlayer';
 import Header from '../components/Header';
 import ScoreCard from '../components/ScoreCard';
 
+/**
+ * ChainScore Main Page
+ */
 export default function Home() {
   const wallet = useWallet();
   const score = useScore();
@@ -14,14 +17,17 @@ export default function Home() {
   const [targetAddress, setTargetAddress] = useState('');
   const [step, setStep] = useState('idle');
 
+  // Validate Ethereum address format
   const isValidAddress = (addr) => /^0x[a-fA-F0-9]{40}$/.test(addr);
 
+  // Auto-fill connected wallet address
   const useMyAddress = () => {
     if (wallet.address) {
       setTargetAddress(wallet.address);
     }
   };
 
+  // Handle query button click
   const handleQuery = async () => {
     if (!targetAddress) {
       score.reset();
@@ -33,11 +39,13 @@ export default function Home() {
       return;
     }
 
+    // Connect wallet if not connected
     if (!wallet.isConnected) {
       const connected = await wallet.connect();
       if (!connected) return;
     }
 
+    // Switch network if needed
     if (!wallet.isCorrectNetwork) {
       const switched = await wallet.switchNetwork();
       if (!switched) return;
@@ -45,6 +53,7 @@ export default function Home() {
 
     setStep('confirming');
     
+    // Query score (will trigger MetaMask 0 GEN deduction)
     const result = await score.queryScore(targetAddress, wallet.address);
     
     if (result) {
@@ -55,18 +64,21 @@ export default function Home() {
     }
   };
 
+  // Reset state for new query
   const handleReset = () => {
     setStep('idle');
     score.reset();
     setTargetAddress('');
   };
 
+  // Handle enter key
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && isValidAddress(targetAddress)) {
       handleQuery();
     }
   };
 
+  // Check if querying own address
   const isQueryingSelf = wallet.address && 
     targetAddress.toLowerCase() === wallet.address.toLowerCase();
 
@@ -122,7 +134,7 @@ export default function Home() {
 
           {!wallet.isConnected && isValidAddress(targetAddress) && (
             <p className="hint">
-              Connect wallet to sign transaction (gas fee only)
+              Connect wallet to sign transaction (0 GEN fee)
             </p>
           )}
         </div>

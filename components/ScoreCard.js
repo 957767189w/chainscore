@@ -2,6 +2,11 @@
 
 import { formatGen } from '../lib/genlayer';
 
+/**
+ * Score card component
+ * Displays wallet reputation score with breakdown
+ * Includes "Credit Loan" button at the bottom
+ */
 export default function ScoreCard({ data, onReset }) {
   if (!data) return null;
 
@@ -23,6 +28,7 @@ export default function ScoreCard({ data, onReset }) {
     governance,
   } = data;
 
+  // Get color based on score
   const getColor = (score) => {
     if (score >= 80) return '#16a34a';
     if (score >= 60) return '#65a30d';
@@ -31,6 +37,7 @@ export default function ScoreCard({ data, onReset }) {
     return '#dc2626';
   };
 
+  // Grade color mapping
   const gradeColors = {
     A: { bg: '#dcfce7', text: '#166534' },
     B: { bg: '#ecfccb', text: '#3f6212' },
@@ -39,12 +46,14 @@ export default function ScoreCard({ data, onReset }) {
     F: { bg: '#fecaca', text: '#991b1b' },
   };
 
+  // Risk level labels
   const riskLabels = {
     low: { text: 'Low', class: 'risk-low' },
     medium: { text: 'Medium', class: 'risk-medium' },
     high: { text: 'High', class: 'risk-high' },
   };
 
+  // Dimension display names
   const dimensionNames = {
     asset_health: 'Asset Health',
     tx_activity: 'Tx Activity',
@@ -53,6 +62,7 @@ export default function ScoreCard({ data, onReset }) {
     governance: 'Governance',
   };
 
+  // Dimension weights
   const dimensionWeights = {
     asset_health: 25,
     tx_activity: 20,
@@ -61,6 +71,7 @@ export default function ScoreCard({ data, onReset }) {
     governance: 15,
   };
 
+  // Build dimensions object
   const dims = dimensions || {
     asset_health: asset_health || 50,
     tx_activity: tx_activity || 50,
@@ -72,6 +83,11 @@ export default function ScoreCard({ data, onReset }) {
   const gc = gradeColors[grade] || gradeColors.C;
   const risk = riskLabels[sybil_risk] || riskLabels.medium;
   const scoreColor = getColor(total_score || 50);
+
+  // Handle Credit Loan button click
+  const handleCreditLoan = () => {
+    alert('Credit Loan feature coming soon!');
+  };
 
   return (
     <div className="score-card">
@@ -129,34 +145,36 @@ export default function ScoreCard({ data, onReset }) {
         ))}
       </div>
 
-      <div className="insights">
-        {highlights && highlights.length > 0 && (
-          <div className="insight-col">
-            <h5>Highlights</h5>
-            <ul>
-              {highlights.map((h, i) => (
-                <li key={i} className="highlight">
-                  <span className="icon">+</span>
-                  {h}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {concerns && concerns.length > 0 && (
-          <div className="insight-col">
-            <h5>Risk Alerts</h5>
-            <ul>
-              {concerns.map((c, i) => (
-                <li key={i} className="concern">
-                  <span className="icon">!</span>
-                  {c}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+      {(highlights?.length > 0 || concerns?.length > 0) && (
+        <div className="insights">
+          {highlights && highlights.length > 0 && (
+            <div className="insight-col">
+              <h5>Highlights</h5>
+              <ul>
+                {highlights.map((h, i) => (
+                  <li key={i} className="highlight">
+                    <span className="icon">+</span>
+                    {h}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {concerns && concerns.length > 0 && (
+            <div className="insight-col">
+              <h5>Risk Alerts</h5>
+              <ul>
+                {concerns.map((c, i) => (
+                  <li key={i} className="concern">
+                    <span className="icon">!</span>
+                    {c}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="card-bottom">
         {fee_paid > 0 && (
@@ -183,6 +201,13 @@ export default function ScoreCard({ data, onReset }) {
             New Query
           </button>
         </div>
+      </div>
+
+      {/* Credit Loan Button */}
+      <div className="loan-section">
+        <button className="btn-loan" onClick={handleCreditLoan}>
+          Credit Loan
+        </button>
       </div>
     </div>
   );
